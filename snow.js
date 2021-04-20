@@ -1,24 +1,32 @@
 class Snow {
-  constructor(x, y) {
+  constructor(x, y, radius) {
     var options = {
-      friction: 0.1,
-      density: 1,
-      restitution:0.2,
-      isStatic: false
+      friction: 0.001,
+      density: 0.005,
+      restitution: 0.2
     }
-    this.body = bodies.circle(x, y, 20, options);
+    this.body = bodies.circle(x, y, radius, options);
     this.x = x;
     this.y = y;
-    this.radius = 20;
+    this.radius = radius;
     this.image = loadImage("snow4.png");
-    World.add(world, this.body)
+    World.add(world, this.body);
   }
+
+  update() {
+    if (this.body.position.y > height) {
+      Matter.Body.setPosition(this.body, { x: random(0, 800), y: random(0, 20) });
+     
+    }
+  }
+
   display() {
     var pos = this.body.position;
+
     push();
     imageMode(CENTER);
-    translate(pos.x, pos.y);
-    image(this.image, 0, 0, this.radius);
+    image(this.image, pos.x, pos.y, this.radius, this.radius);
     pop();
+
   }
 }
